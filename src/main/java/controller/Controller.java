@@ -7,7 +7,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import jess.JessException;
 import main.java.integration.jess.JessAdapter;
-import main.java.model.GenericModel;
+import main.java.model.Caracter;
 import main.java.parser.CsvParser;
 import main.java.parser.GenericParser;
 import main.java.transformer.IntrebareTransformer;
@@ -26,7 +26,7 @@ public class Controller {
 
     private File readFile = new File(CSV_PATH);
     private GenericParser parser = new CsvParser(readFile);
-    private List<GenericModel> listaCaractere = parser.parse();
+    private List<Caracter> listaCaractere = parser.parse();
     private IntrebareTransformer listaIntrebari = new IntrebareTransformer();
     private StringUtilsTransformer transformer = new StringUtilsTransformer();
     private int index = 1;
@@ -50,14 +50,14 @@ public class Controller {
 
         intrebareLabel.setText(listaIntrebari.getListaIntrebari().get(index));
 
-        GenericModel genericModel = new GenericModel();
-        currentField = genericModel.getClass().getDeclaredFields()[index++];
+        Caracter caracter = new Caracter();
+        currentField = caracter.getClass().getDeclaredFields()[index++];
         currentField.setAccessible(true);
 
         caracteristica.getItems().clear();
 
-        for (GenericModel genericModelIterator : listaCaractere) {
-            String proprietateCurenta = (String) currentField.get(genericModelIterator);
+        for (Caracter caracterIterator : listaCaractere) {
+            String proprietateCurenta = (String) currentField.get(caracterIterator);
             transformer.addIfNotInPropertiesList(proprietateCurenta);
         }
 

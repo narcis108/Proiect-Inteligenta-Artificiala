@@ -1,6 +1,6 @@
 package main.java.model;
 
-public class GenericModel {
+public class Caracter {
     private String nume;
     private String sat;
     private String rank;

@@ -1,6 +1,6 @@
 package main.java.parser;
 
-import main.java.model.GenericModel;
+import main.java.model.Caracter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,17 +20,17 @@ public class CsvParser implements GenericParser {
     }
 
     @Override
-    public List<GenericModel> parse() {
-        List<GenericModel> caractere = new ArrayList<>();
+    public List<Caracter> parse() {
+        List<Caracter> caractere = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(parsedFile));
             String line;
             reader.readLine();
             while ((line = reader.readLine()) != null) {
-                GenericModel genericModel = new GenericModel();
+                Caracter caracter = new Caracter();
                 ArrayList<String> caracteristici = getLineAsArrayList(line);
-                setFields(genericModel, caracteristici);
-                caractere.add(genericModel);
+                setFields(caracter, caracteristici);
+                caractere.add(caracter);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,13 +40,13 @@ public class CsvParser implements GenericParser {
 
 
     @SuppressWarnings("ThrowablePrintedToSystemOut")
-    private void setFields(GenericModel genericModel, ArrayList<String> caracteristici) {
+    private void setFields(Caracter caracter, ArrayList<String> caracteristici) {
         try {
-            Class<?> clasa = genericModel.getClass();
+            Class<?> clasa = caracter.getClass();
             int index = 0;
             for (Field field : clasa.getDeclaredFields()) {
                 field.setAccessible(true);
-                field.set(genericModel, caracteristici.get(index++));
+                field.set(caracter, caracteristici.get(index++));
             }
         } catch (Exception ex) {
             System.out.println(ex);
