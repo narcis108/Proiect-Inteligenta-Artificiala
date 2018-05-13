@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#startJoc" prefHeight="600.0" prefWidth="1024.0"
+            styleClass="parent" stylesheets="@../css/sat.css" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="main.java.controller.MainController">
+    <children>
+        <VBox layoutX="367.0" layoutY="457.0">
+            <children>
+                <Label fx:id="intrebareLabel" layoutX="234.0" layoutY="59.0" styleClass="intrebare-label"
+                       textFill="#ff0404">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <HBox layoutX="71.0" layoutY="91.0" spacing="10.0">
+                    <children>
+                        <ChoiceBox fx:id="caracteristica" layoutX="71.0" layoutY="91.0" prefWidth="150.0"
+                                   visible="false"/>
+                        <Button fx:id="nextButton" layoutX="281.0" layoutY="91.0" mnemonicParsing="false"
+                                onMouseClicked="#changeQuestion" styleClass="buttons" text="Urmatoarea intrebare"
+                                visible="false"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <VBox fx:id="introducere" alignment="CENTER" layoutX="179.0" layoutY="116.0" prefHeight="0.0" prefWidth="0.0"/>
+        <Label fx:id="rezultateLabel" layoutX="238.0" layoutY="-38.0" prefHeight="345.0" prefWidth="574.0"
+               styleClass="descriere" text="S-au gasit urmatoarele caractere conform criteriilor:"
+               textAlignment="CENTER" visible="false">
+            <font>
+                <Font name="Impact" size="20.0"/>
+            </font>
+        </Label>
+        <ScrollPane layoutX="136.0" layoutY="163.0" prefHeight="274.0" prefViewportHeight="339.0"
+                    prefViewportWidth="574.0" prefWidth="798.0" visible="false">
+            <content>
+                <TableView fx:id="tabelRezultate" layoutX="238.0" layoutY="165.0" prefHeight="288.0" prefWidth="900.0"
+                           visible="false"/>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

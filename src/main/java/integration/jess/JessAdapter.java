@@ -10,6 +10,7 @@ import java.util.Iterator;
 public class JessAdapter {
     private static final String INITIAL_FACTS_FILE_PATH = "main/resources/initial-facts.clp";
     private static final String GLOBAL_VARIABLES_FILE_PATH = "main/resources/global-variables.clp";
+    private static final String REGULA_AFISARE_FILE_PATH = "main/resources/regula-afisare.clp";
     private static final Integer RESULT_FACT_INDEX = 67;
 
     private Rete engine;
@@ -37,49 +38,14 @@ public class JessAdapter {
                         "=>\n" +
                         " (bind ?*%s* (create$ %s))\n" +
                         ")",
-                numeRegula,
-                numeRegula,
-                allValues != null ? allValues : value);
+                numeRegula, numeRegula, allValues != null ? allValues : value);
         engine.eval(pattern);
         System.out.println(pattern);
         engine.run();
     }
 
     public ArrayList<String> adaugaRegulaAfisare() throws JessException {
-        String pattern = "(defrule afisareNume\n" +
-                "(Caracter\n" +
-                " (Nume ?nume)\n" +
-                " (Sat ?sat)\n" +
-                " (Rank ?rank)\n" +
-                " (Clan ?clan)\n" +
-                " (Jinchuriki  ?bestie)\n" +
-                " (Ochi ?tipOchi)\n" +
-                " (Sex ?sex)\n" +
-                " (PrimaAparitie ?primaAparitie)\n" +
-                " (TipElementDominant ?elementDominant)\n" +
-                " (KekkeiGenkai ?abilitateInascuta)\n" +
-                " (Traieste ?traieste)\n" +
-                ")\n" +
-                "    =>\n" +
-                "      (if (and (member$ ?sat ?*sat* ) \n" +
-                "             (member$ ?rank ?*rank* )\n" +
-                "             (member$ ?clan ?*clan* )\n" +
-                "             (member$ ?bestie ?*bestie* )\n" +
-                "             (member$ ?tipOchi ?*tipOchi* )\n" +
-                "             (member$ ?sex ?*sex* )\n" +
-                "             (member$ ?primaAparitie ?*primaAparitie* )\n" +
-                "             (member$ ?elementDominant ?*elementDominant* )\n" +
-                "             (member$ ?abilitateInascuta ?*abilitateInascuta* )\n" +
-                "             (member$ ?traieste ?*traieste* )\n" +
-                "\n" +
-                "       )\n" +
-                "        then\n" +
-                "    (bind ?*nume* ?nume)\n" +
-                "    (assert (rezultat ?*nume*))\n" +
-                "    )\n" +
-                ")";
-        engine.eval(pattern);
-        engine.eval("(rules)");
+        engine.batch(REGULA_AFISARE_FILE_PATH);
         engine.run();
         return getListaRezultate();
     }

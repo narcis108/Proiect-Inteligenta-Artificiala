@@ -2,14 +2,16 @@ package main.java.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import jess.JessException;
 import main.java.integration.jess.JessAdapter;
 import main.java.model.Caracter;
 import main.java.parser.CsvParser;
 import main.java.parser.GenericParser;
+import main.java.transformer.ImageChanger;
 import main.java.transformer.IntrebareTransformer;
 import main.java.transformer.StringUtilsTransformer;
 
@@ -18,7 +20,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller {
+public class MainController {
     private static final String CSV_PATH = "C:\\Users\\Narcis\\Desktop\\ProiectInteligentaArtificialaNaruto\\src\\main\\resources\\bc.csv";
 
     private JessAdapter adapter;
@@ -29,7 +31,9 @@ public class Controller {
     private List<Caracter> listaCaractere = parser.parse();
     private IntrebareTransformer listaIntrebari = new IntrebareTransformer();
     private StringUtilsTransformer transformer = new StringUtilsTransformer();
+    private ImageChanger imageChanger = new ImageChanger();
     private int index = 1;
+
     @FXML
     private ChoiceBox<String> caracteristica;
     @FXML
@@ -37,14 +41,42 @@ public class Controller {
     @FXML
     private Label intrebareLabel;
 
-    public Controller() throws JessException {
+    @FXML
+    private VBox introducere;
+
+    @FXML
+    private AnchorPane parent;
+
+    @FXML
+    private TableView<String> tabelRezultate;
+
+    @FXML
+    private Label rezultateLabel;
+
+
+    public MainController() throws JessException {
         adapter = new JessAdapter();
+    }
+
+    @FXML
+    private void initialize() throws JessException, IllegalAccessException {
+        startJoc();
+    }
+
+    @FXML
+    private void startJoc() throws JessException, IllegalAccessException {
+        loadChoiceBoxValues();
+        introducere.setVisible(false);
+        nextButton.setVisible(true);
+        caracteristica.setVisible(true);
+        tabelRezultate.setVisible(false);
     }
 
     @FXML
     public void loadChoiceBoxValues() throws IllegalAccessException, JessException {
         if (index > 10) {
             afiseazaRaspuns();
+            nextButton.setDisable(true);
             return;
         }
 
@@ -67,6 +99,7 @@ public class Controller {
     }
 
     public void changeQuestion() throws JessException, IllegalAccessException {
+        imageChanger.changeImage(index, parent);
         if (caracteristica.getValue() == "Nu conteaza") {
             adapter.adaugaRegulaNoua(currentField.getName(),
                     caracteristica.getValue().toString(),
@@ -81,7 +114,21 @@ public class Controller {
     }
 
     private void afiseazaRaspuns() throws JessException {
-        ArrayList<String> rezultate = adapter.adaugaRegulaAfisare();
+        initializeazaColoaneTabel();
+        ArrayList<String> listaRezultate = adapter.adaugaRegulaAfisare();
     }
 
+
+    private void initializeazaColoaneTabel() {
+        Caracter caracter = new Caracter();
+        caracter.setNume("Itachi");
+        Class<?> clasaCaracter = caracter.getClass();
+        for (Field field : clasaCaracter.getDeclaredFields()) {
+            field.setAccessible(true);
+            TableColumn tableColumn = new TableColumn(field.getName().toUpperCase());
+            tableColumn.setCellValueFactory(new PropertyValueFactory(field.getName()));
+            tabelRezultate.getColumns().add(tableColumn);
+        }
+    }
 }
+

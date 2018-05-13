@@ -14,9 +14,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("mainApplication.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../resources/layout/welcome-screen.fxml"));
         primaryStage.setTitle("Alegere personaj Naruto");
-        primaryStage.setScene(new Scene(root, 700, 700));
+        primaryStage.setScene(new Scene(root, 1024, 600));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

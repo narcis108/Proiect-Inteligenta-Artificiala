@@ -1,0 +1,32 @@
+(defrule afisareNume
+(Caracter
+ (Nume ?nume)
+ (Sat ?sat)
+ (Rank ?rank)
+ (Clan ?clan)
+ (Jinchuriki  ?bestie)
+ (Ochi ?tipOchi)
+ (Sex ?sex)
+ (PrimaAparitie ?primaAparitie)
+ (TipElementDominant ?elementDominant)
+ (KekkeiGenkai ?abilitateInascuta)
+ (Traieste ?traieste)
+)
+    =>
+      (if (and (member$ ?sat ?*sat* )
+             (member$ ?rank ?*rank* )
+             (member$ ?clan ?*clan* )
+             (member$ ?bestie ?*bestie* )
+             (member$ ?tipOchi ?*tipOchi* )
+             (member$ ?sex ?*sex* )
+             (member$ ?primaAparitie ?*primaAparitie* )
+             (member$ ?elementDominant ?*elementDominant* )
+             (member$ ?abilitateInascuta ?*abilitateInascuta* )
+             (member$ ?traieste ?*traieste* )
+
+       )
+        then
+    (bind ?*nume* ?nume)
+    (assert (rezultat ?*nume*))
+    )
+)
